@@ -1,3 +1,5 @@
+#ifndef FRAMEWORK_H
+#define FRAMEWORK_H
 //=============================================================================================
 // Collection of programs from lecture slides.
 // Framework for assignments. Valid from 2020.
@@ -395,3 +397,5 @@ public:
 
 	~GPUProgram() { if (shaderProgramId > 0) glDeleteProgram(shaderProgramId); }
 };
+
+#endif

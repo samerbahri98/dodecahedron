@@ -1,15 +1,20 @@
 //=============================================================================================
 // Computer Graphics Homework
 //
-// Name:
-// Neptun code:
+// Name: Samer Bahri
+// Neptun code: owyul7
 //
 // I hereby declare that the homework has been made by me, including the problem interpretation,
 // algorithm selection, and coding. Should I use materials and programs not from the course webpage,
 // the sources are clearly indentified as a comment in the code.
 //=============================================================================================
-#include "framework.h"
 
+// dodecahedron.obj link: https://github.com/angerangel/LCR3D/blob/master/3D-models/dodecahedron.obj
+
+
+#include "framework.h"
+#include "scene.h"
+Scene* S = new Scene();
 // vertex shader in GLSL: It is a Raw string (C++11) since it contains new line characters
 const char *const vertexSource = R"(
 	#version 330				// Shader 3.3
@@ -83,9 +88,9 @@ void onDisplay()
 
 	location = glGetUniformLocation(gpuProgram.getId(), "MVP"); // Get the GPU location of uniform variable MVP
 	glUniformMatrix4fv(location, 1, GL_TRUE, &MVPtransf[0][0]); // Load a 4x4 row-major float matrix to the specified location
-
-	glBindVertexArray(vao); // Draw call
-	glDrawArrays(GL_TRIANGLES, 0 /*startIdx*/, 3 /*# Elements*/);
+	S->drawDedo();
+	// glBindVertexArray(vao); // Draw call
+	// glDrawArrays(GL_LINE_LOOP, 0 /*startIdx*/, 3 /*# Elements*/);
 
 	glutSwapBuffers(); // exchange buffers for double buffering
 }
