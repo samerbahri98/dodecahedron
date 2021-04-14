@@ -52,7 +52,7 @@ void glQuad(const Vector& a, const Vector& b, const Vector& c, const Vector& d) 
 }
 
 void drawCube(const Vector& size) {
-  glBegin(GL_QUADS); {
+  glBegin(GL_LINE_LOOP); {
     /*       (E)-----(A)
              /|      /|
             / |     / |
@@ -113,11 +113,6 @@ int main(int argc, char **argv) {
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 
   glutCreateWindow("Grafika pelda program");
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
 
   onInitialization();
 
