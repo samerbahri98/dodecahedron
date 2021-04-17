@@ -1,0 +1,1056 @@
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Egg.cpp:2:
+./framework.h:102:13: note: ‘vec4 operator*(float, const vec4&)’ previously defined here
+ inline vec4 operator*(float a, const vec4& v) {
+             ^~~~~~~~
+In file included from ./Egg.cpp:3:0:
+./framework.h: At global scope:
+./framework.h:107:8: error: redefinition of ‘struct mat4’
+ struct mat4 { // row-major matrix 4x4
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Egg.cpp:2:
+./framework.h:107:8: note: previous definition of ‘struct mat4’
+ struct mat4 { // row-major matrix 4x4
+        ^~~~
+In file included from ./Egg.cpp:3:0:
+./framework.h: In function ‘vec4 operator*(const vec4&, const mat4&)’:
+./framework.h:130:13: error: redefinition of ‘vec4 operator*(const vec4&, const mat4&)’
+ inline vec4 operator*(const vec4& v, const mat4& mat) {
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Egg.cpp:2:
+./framework.h:130:13: note: ‘vec4 operator*(const vec4&, const mat4&)’ previously defined here
+ inline vec4 operator*(const vec4& v, const mat4& mat) {
+             ^~~~~~~~
+In file included from ./Egg.cpp:3:0:
+./framework.h: In function ‘mat4 operator*(const mat4&, const mat4&)’:
+./framework.h:134:13: error: redefinition of ‘mat4 operator*(const mat4&, const mat4&)’
+ inline mat4 operator*(const mat4& left, const mat4& right) {
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Egg.cpp:2:
+./framework.h:134:13: note: ‘mat4 operator*(const mat4&, const mat4&)’ previously defined here
+ inline mat4 operator*(const mat4& left, const mat4& right) {
+             ^~~~~~~~
+In file included from ./Egg.cpp:3:0:
+./framework.h: In function ‘mat4 TranslateMatrix(vec3)’:
+./framework.h:140:13: error: redefinition of ‘mat4 TranslateMatrix(vec3)’
+ inline mat4 TranslateMatrix(vec3 t) {
+             ^~~~~~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Egg.cpp:2:
+./framework.h:140:13: note: ‘mat4 TranslateMatrix(vec3)’ previously defined here
+ inline mat4 TranslateMatrix(vec3 t) {
+             ^~~~~~~~~~~~~~~
+In file included from ./Egg.cpp:3:0:
+./framework.h: In function ‘mat4 ScaleMatrix(vec3)’:
+./framework.h:147:13: error: redefinition of ‘mat4 ScaleMatrix(vec3)’
+ inline mat4 ScaleMatrix(vec3 s) {
+             ^~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Egg.cpp:2:
+./framework.h:147:13: note: ‘mat4 ScaleMatrix(vec3)’ previously defined here
+ inline mat4 ScaleMatrix(vec3 s) {
+             ^~~~~~~~~~~
+In file included from ./Egg.cpp:3:0:
+./framework.h: In function ‘mat4 RotationMatrix(float, vec3)’:
+./framework.h:154:13: error: redefinition of ‘mat4 RotationMatrix(float, vec3)’
+ inline mat4 RotationMatrix(float angle, vec3 w) {
+             ^~~~~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Egg.cpp:2:
+./framework.h:154:13: note: ‘mat4 RotationMatrix(float, vec3)’ previously defined here
+ inline mat4 RotationMatrix(float angle, vec3 w) {
+             ^~~~~~~~~~~~~~
+In file included from ./Egg.cpp:3:0:
+./framework.h: At global scope:
+./framework.h:164:7: error: redefinition of ‘class Texture’
+ class Texture {
+       ^~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Egg.cpp:2:
+./framework.h:164:7: note: previous definition of ‘class Texture’
+ class Texture {
+       ^~~~~~~
+In file included from ./Egg.cpp:3:0:
+./framework.h:237:7: error: redefinition of ‘class GPUProgram’
+ class GPUProgram {
+       ^~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Egg.cpp:2:
+./framework.h:237:7: note: previous definition of ‘class GPUProgram’
+ class GPUProgram {
+       ^~~~~~~~~~
+./Egg.cpp:5:1: error: prototype for ‘Egg::Egg(vec3, float, Material*)’ does not match any in class ‘Egg’
+ Egg::Egg(vec3 _center, float _radius, Material *_material)
+ ^~~
+In file included from ./Egg.cpp:1:0:
+./Egg.h:5:7: error: candidates are: constexpr Egg::Egg(Egg&&)
+ class Egg : public Intersectable
+       ^~~
+./Egg.h:5:7: error:                 constexpr Egg::Egg(const Egg&)
+./Egg.h:5:7: error:                 Egg::Egg()
+./Egg.cpp:12:34: error: no ‘Hit Egg::intersect(const Ray&)’ member function declared in class ‘Egg’
+ Hit Egg::intersect(const Ray &ray)
+                                  ^
+In file included from ./Scene.cpp:1:0:
+./Scene.h:8:10: error: ‘vector’ in namespace ‘std’ does not name a template type
+     std::vector<Intersectable *> objects;
+          ^~~~~~
+./Scene.h:9:10: error: ‘vector’ in namespace ‘std’ does not name a template type
+     std::vector<Light *> lights;
+          ^~~~~~
+./Scene.h:10:5: error: ‘Camera’ does not name a type
+     Camera camera;
+     ^~~~~~
+./Scene.h:11:5: error: ‘vec3’ does not name a type
+     vec3 La;
+     ^~~~
+./Scene.h:15:22: error: ‘std::vector’ has not been declared
+     void render(std::vector<vec4> &image);
+                      ^~~~~~
+./Scene.h:15:28: error: expected ‘,’ or ‘...’ before ‘<’ token
+     void render(std::vector<vec4> &image);
+                            ^
+./Scene.h:16:5: error: ‘Hit’ does not name a type
+     Hit firstIntersect(Ray ray);
+     ^~~
+./Scene.h:17:5: error: ‘vec3’ does not name a type
+     vec3 trace(Ray ray, int depth = 0);
+     ^~~~
+./Scene.h:18:26: error: ‘Ray’ has not been declared
+     bool shadowIntersect(Ray ray);
+                          ^~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h:27:20: error: redefinition of ‘const unsigned int windowWidth’
+ const unsigned int windowWidth = 600, windowHeight = 600;
+                    ^~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:27:20: note: ‘const unsigned int windowWidth’ previously defined here
+ const unsigned int windowWidth = 600, windowHeight = 600;
+                    ^~~~~~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h:27:39: error: redefinition of ‘const unsigned int windowHeight’
+ const unsigned int windowWidth = 600, windowHeight = 600;
+                                       ^~~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:27:39: note: ‘const unsigned int windowHeight’ previously defined here
+ const unsigned int windowWidth = 600, windowHeight = 600;
+                                       ^~~~~~~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h:30:8: error: redefinition of ‘struct vec2’
+ struct vec2 {
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:30:8: note: previous definition of ‘struct vec2’
+ struct vec2 {
+        ^~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘float dot(const vec2&, const vec2&)’:
+./framework.h:43:14: error: redefinition of ‘float dot(const vec2&, const vec2&)’
+ inline float dot(const vec2& v1, const vec2& v2) {
+              ^~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:43:14: note: ‘float dot(const vec2&, const vec2&)’ previously defined here
+ inline float dot(const vec2& v1, const vec2& v2) {
+              ^~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘float length(const vec2&)’:
+./framework.h:47:14: error: redefinition of ‘float length(const vec2&)’
+ inline float length(const vec2& v) { return sqrtf(dot(v, v)); }
+              ^~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:47:14: note: ‘float length(const vec2&)’ previously defined here
+ inline float length(const vec2& v) { return sqrtf(dot(v, v)); }
+              ^~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘vec2 normalize(const vec2&)’:
+./framework.h:49:13: error: redefinition of ‘vec2 normalize(const vec2&)’
+ inline vec2 normalize(const vec2& v) { return v * (1 / length(v)); }
+             ^~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:49:13: note: ‘vec2 normalize(const vec2&)’ previously defined here
+ inline vec2 normalize(const vec2& v) { return v * (1 / length(v)); }
+             ^~~~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘vec2 operator*(float, const vec2&)’:
+./framework.h:51:13: error: redefinition of ‘vec2 operator*(float, const vec2&)’
+ inline vec2 operator*(float a, const vec2& v) { return vec2(v.x * a, v.y * a); }
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:51:13: note: ‘vec2 operator*(float, const vec2&)’ previously defined here
+ inline vec2 operator*(float a, const vec2& v) { return vec2(v.x * a, v.y * a); }
+             ^~~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: At global scope:
+./framework.h:54:8: error: redefinition of ‘struct vec3’
+ struct vec3 {
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:54:8: note: previous definition of ‘struct vec3’
+ struct vec3 {
+        ^~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘float dot(const vec3&, const vec3&)’:
+./framework.h:69:14: error: redefinition of ‘float dot(const vec3&, const vec3&)’
+ inline float dot(const vec3& v1, const vec3& v2) { return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z); }
+              ^~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:69:14: note: ‘float dot(const vec3&, const vec3&)’ previously defined here
+ inline float dot(const vec3& v1, const vec3& v2) { return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z); }
+              ^~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘float length(const vec3&)’:
+./framework.h:71:14: error: redefinition of ‘float length(const vec3&)’
+ inline float length(const vec3& v) { return sqrtf(dot(v, v)); }
+              ^~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:71:14: note: ‘float length(const vec3&)’ previously defined here
+ inline float length(const vec3& v) { return sqrtf(dot(v, v)); }
+              ^~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘vec3 normalize(const vec3&)’:
+./framework.h:73:13: error: redefinition of ‘vec3 normalize(const vec3&)’
+ inline vec3 normalize(const vec3& v) { return v * (1 / length(v)); }
+             ^~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:73:13: note: ‘vec3 normalize(const vec3&)’ previously defined here
+ inline vec3 normalize(const vec3& v) { return v * (1 / length(v)); }
+             ^~~~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘vec3 cross(const vec3&, const vec3&)’:
+./framework.h:75:13: error: redefinition of ‘vec3 cross(const vec3&, const vec3&)’
+ inline vec3 cross(const vec3& v1, const vec3& v2) {
+             ^~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:75:13: note: ‘vec3 cross(const vec3&, const vec3&)’ previously defined here
+ inline vec3 cross(const vec3& v1, const vec3& v2) {
+             ^~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘vec3 operator*(float, const vec3&)’:
+./framework.h:79:13: error: redefinition of ‘vec3 operator*(float, const vec3&)’
+ inline vec3 operator*(float a, const vec3& v) { return vec3(v.x * a, v.y * a, v.z * a); }
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:79:13: note: ‘vec3 operator*(float, const vec3&)’ previously defined here
+ inline vec3 operator*(float a, const vec3& v) { return vec3(v.x * a, v.y * a, v.z * a); }
+             ^~~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: At global scope:
+./framework.h:82:8: error: redefinition of ‘struct vec4’
+ struct vec4 {
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:82:8: note: previous definition of ‘struct vec4’
+ struct vec4 {
+        ^~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘float dot(const vec4&, const vec4&)’:
+./framework.h:98:14: error: redefinition of ‘float dot(const vec4&, const vec4&)’
+ inline float dot(const vec4& v1, const vec4& v2) {
+              ^~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:98:14: note: ‘float dot(const vec4&, const vec4&)’ previously defined here
+ inline float dot(const vec4& v1, const vec4& v2) {
+              ^~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘vec4 operator*(float, const vec4&)’:
+./framework.h:102:13: error: redefinition of ‘vec4 operator*(float, const vec4&)’
+ inline vec4 operator*(float a, const vec4& v) {
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:102:13: note: ‘vec4 operator*(float, const vec4&)’ previously defined here
+ inline vec4 operator*(float a, const vec4& v) {
+             ^~~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: At global scope:
+./framework.h:107:8: error: redefinition of ‘struct mat4’
+ struct mat4 { // row-major matrix 4x4
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:107:8: note: previous definition of ‘struct mat4’
+ struct mat4 { // row-major matrix 4x4
+        ^~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘vec4 operator*(const vec4&, const mat4&)’:
+./framework.h:130:13: error: redefinition of ‘vec4 operator*(const vec4&, const mat4&)’
+ inline vec4 operator*(const vec4& v, const mat4& mat) {
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:130:13: note: ‘vec4 operator*(const vec4&, const mat4&)’ previously defined here
+ inline vec4 operator*(const vec4& v, const mat4& mat) {
+             ^~~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘mat4 operator*(const mat4&, const mat4&)’:
+./framework.h:134:13: error: redefinition of ‘mat4 operator*(const mat4&, const mat4&)’
+ inline mat4 operator*(const mat4& left, const mat4& right) {
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:134:13: note: ‘mat4 operator*(const mat4&, const mat4&)’ previously defined here
+ inline mat4 operator*(const mat4& left, const mat4& right) {
+             ^~~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘mat4 TranslateMatrix(vec3)’:
+./framework.h:140:13: error: redefinition of ‘mat4 TranslateMatrix(vec3)’
+ inline mat4 TranslateMatrix(vec3 t) {
+             ^~~~~~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:140:13: note: ‘mat4 TranslateMatrix(vec3)’ previously defined here
+ inline mat4 TranslateMatrix(vec3 t) {
+             ^~~~~~~~~~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘mat4 ScaleMatrix(vec3)’:
+./framework.h:147:13: error: redefinition of ‘mat4 ScaleMatrix(vec3)’
+ inline mat4 ScaleMatrix(vec3 s) {
+             ^~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:147:13: note: ‘mat4 ScaleMatrix(vec3)’ previously defined here
+ inline mat4 ScaleMatrix(vec3 s) {
+             ^~~~~~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: In function ‘mat4 RotationMatrix(float, vec3)’:
+./framework.h:154:13: error: redefinition of ‘mat4 RotationMatrix(float, vec3)’
+ inline mat4 RotationMatrix(float angle, vec3 w) {
+             ^~~~~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:154:13: note: ‘mat4 RotationMatrix(float, vec3)’ previously defined here
+ inline mat4 RotationMatrix(float angle, vec3 w) {
+             ^~~~~~~~~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h: At global scope:
+./framework.h:164:7: error: redefinition of ‘class Texture’
+ class Texture {
+       ^~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:164:7: note: previous definition of ‘class Texture’
+ class Texture {
+       ^~~~~~~
+In file included from ./Ray.h:4:0,
+                 from ./Intersectable.h:4,
+                 from ./Scene.cpp:2:
+./framework.h:237:7: error: redefinition of ‘class GPUProgram’
+ class GPUProgram {
+       ^~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:237:7: note: previous definition of ‘class GPUProgram’
+ class GPUProgram {
+       ^~~~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h:27:20: error: redefinition of ‘const unsigned int windowWidth’
+ const unsigned int windowWidth = 600, windowHeight = 600;
+                    ^~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:27:20: note: ‘const unsigned int windowWidth’ previously defined here
+ const unsigned int windowWidth = 600, windowHeight = 600;
+                    ^~~~~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h:27:39: error: redefinition of ‘const unsigned int windowHeight’
+ const unsigned int windowWidth = 600, windowHeight = 600;
+                                       ^~~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:27:39: note: ‘const unsigned int windowHeight’ previously defined here
+ const unsigned int windowWidth = 600, windowHeight = 600;
+                                       ^~~~~~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h:30:8: error: redefinition of ‘struct vec2’
+ struct vec2 {
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:30:8: note: previous definition of ‘struct vec2’
+ struct vec2 {
+        ^~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘float dot(const vec2&, const vec2&)’:
+./framework.h:43:14: error: redefinition of ‘float dot(const vec2&, const vec2&)’
+ inline float dot(const vec2& v1, const vec2& v2) {
+              ^~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:43:14: note: ‘float dot(const vec2&, const vec2&)’ previously defined here
+ inline float dot(const vec2& v1, const vec2& v2) {
+              ^~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘float length(const vec2&)’:
+./framework.h:47:14: error: redefinition of ‘float length(const vec2&)’
+ inline float length(const vec2& v) { return sqrtf(dot(v, v)); }
+              ^~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:47:14: note: ‘float length(const vec2&)’ previously defined here
+ inline float length(const vec2& v) { return sqrtf(dot(v, v)); }
+              ^~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘vec2 normalize(const vec2&)’:
+./framework.h:49:13: error: redefinition of ‘vec2 normalize(const vec2&)’
+ inline vec2 normalize(const vec2& v) { return v * (1 / length(v)); }
+             ^~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:49:13: note: ‘vec2 normalize(const vec2&)’ previously defined here
+ inline vec2 normalize(const vec2& v) { return v * (1 / length(v)); }
+             ^~~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘vec2 operator*(float, const vec2&)’:
+./framework.h:51:13: error: redefinition of ‘vec2 operator*(float, const vec2&)’
+ inline vec2 operator*(float a, const vec2& v) { return vec2(v.x * a, v.y * a); }
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:51:13: note: ‘vec2 operator*(float, const vec2&)’ previously defined here
+ inline vec2 operator*(float a, const vec2& v) { return vec2(v.x * a, v.y * a); }
+             ^~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: At global scope:
+./framework.h:54:8: error: redefinition of ‘struct vec3’
+ struct vec3 {
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:54:8: note: previous definition of ‘struct vec3’
+ struct vec3 {
+        ^~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘float dot(const vec3&, const vec3&)’:
+./framework.h:69:14: error: redefinition of ‘float dot(const vec3&, const vec3&)’
+ inline float dot(const vec3& v1, const vec3& v2) { return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z); }
+              ^~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:69:14: note: ‘float dot(const vec3&, const vec3&)’ previously defined here
+ inline float dot(const vec3& v1, const vec3& v2) { return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z); }
+              ^~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘float length(const vec3&)’:
+./framework.h:71:14: error: redefinition of ‘float length(const vec3&)’
+ inline float length(const vec3& v) { return sqrtf(dot(v, v)); }
+              ^~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:71:14: note: ‘float length(const vec3&)’ previously defined here
+ inline float length(const vec3& v) { return sqrtf(dot(v, v)); }
+              ^~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘vec3 normalize(const vec3&)’:
+./framework.h:73:13: error: redefinition of ‘vec3 normalize(const vec3&)’
+ inline vec3 normalize(const vec3& v) { return v * (1 / length(v)); }
+             ^~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:73:13: note: ‘vec3 normalize(const vec3&)’ previously defined here
+ inline vec3 normalize(const vec3& v) { return v * (1 / length(v)); }
+             ^~~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘vec3 cross(const vec3&, const vec3&)’:
+./framework.h:75:13: error: redefinition of ‘vec3 cross(const vec3&, const vec3&)’
+ inline vec3 cross(const vec3& v1, const vec3& v2) {
+             ^~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:75:13: note: ‘vec3 cross(const vec3&, const vec3&)’ previously defined here
+ inline vec3 cross(const vec3& v1, const vec3& v2) {
+             ^~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘vec3 operator*(float, const vec3&)’:
+./framework.h:79:13: error: redefinition of ‘vec3 operator*(float, const vec3&)’
+ inline vec3 operator*(float a, const vec3& v) { return vec3(v.x * a, v.y * a, v.z * a); }
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:79:13: note: ‘vec3 operator*(float, const vec3&)’ previously defined here
+ inline vec3 operator*(float a, const vec3& v) { return vec3(v.x * a, v.y * a, v.z * a); }
+             ^~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: At global scope:
+./framework.h:82:8: error: redefinition of ‘struct vec4’
+ struct vec4 {
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:82:8: note: previous definition of ‘struct vec4’
+ struct vec4 {
+        ^~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘float dot(const vec4&, const vec4&)’:
+./framework.h:98:14: error: redefinition of ‘float dot(const vec4&, const vec4&)’
+ inline float dot(const vec4& v1, const vec4& v2) {
+              ^~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:98:14: note: ‘float dot(const vec4&, const vec4&)’ previously defined here
+ inline float dot(const vec4& v1, const vec4& v2) {
+              ^~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘vec4 operator*(float, const vec4&)’:
+./framework.h:102:13: error: redefinition of ‘vec4 operator*(float, const vec4&)’
+ inline vec4 operator*(float a, const vec4& v) {
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:102:13: note: ‘vec4 operator*(float, const vec4&)’ previously defined here
+ inline vec4 operator*(float a, const vec4& v) {
+             ^~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: At global scope:
+./framework.h:107:8: error: redefinition of ‘struct mat4’
+ struct mat4 { // row-major matrix 4x4
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:107:8: note: previous definition of ‘struct mat4’
+ struct mat4 { // row-major matrix 4x4
+        ^~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘vec4 operator*(const vec4&, const mat4&)’:
+./framework.h:130:13: error: redefinition of ‘vec4 operator*(const vec4&, const mat4&)’
+ inline vec4 operator*(const vec4& v, const mat4& mat) {
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:130:13: note: ‘vec4 operator*(const vec4&, const mat4&)’ previously defined here
+ inline vec4 operator*(const vec4& v, const mat4& mat) {
+             ^~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘mat4 operator*(const mat4&, const mat4&)’:
+./framework.h:134:13: error: redefinition of ‘mat4 operator*(const mat4&, const mat4&)’
+ inline mat4 operator*(const mat4& left, const mat4& right) {
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:134:13: note: ‘mat4 operator*(const mat4&, const mat4&)’ previously defined here
+ inline mat4 operator*(const mat4& left, const mat4& right) {
+             ^~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘mat4 TranslateMatrix(vec3)’:
+./framework.h:140:13: error: redefinition of ‘mat4 TranslateMatrix(vec3)’
+ inline mat4 TranslateMatrix(vec3 t) {
+             ^~~~~~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:140:13: note: ‘mat4 TranslateMatrix(vec3)’ previously defined here
+ inline mat4 TranslateMatrix(vec3 t) {
+             ^~~~~~~~~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘mat4 ScaleMatrix(vec3)’:
+./framework.h:147:13: error: redefinition of ‘mat4 ScaleMatrix(vec3)’
+ inline mat4 ScaleMatrix(vec3 s) {
+             ^~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:147:13: note: ‘mat4 ScaleMatrix(vec3)’ previously defined here
+ inline mat4 ScaleMatrix(vec3 s) {
+             ^~~~~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: In function ‘mat4 RotationMatrix(float, vec3)’:
+./framework.h:154:13: error: redefinition of ‘mat4 RotationMatrix(float, vec3)’
+ inline mat4 RotationMatrix(float angle, vec3 w) {
+             ^~~~~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:154:13: note: ‘mat4 RotationMatrix(float, vec3)’ previously defined here
+ inline mat4 RotationMatrix(float angle, vec3 w) {
+             ^~~~~~~~~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h: At global scope:
+./framework.h:164:7: error: redefinition of ‘class Texture’
+ class Texture {
+       ^~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:164:7: note: previous definition of ‘class Texture’
+ class Texture {
+       ^~~~~~~
+In file included from ./Light.h:4:0,
+                 from ./Scene.cpp:3:
+./framework.h:237:7: error: redefinition of ‘class GPUProgram’
+ class GPUProgram {
+       ^~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:237:7: note: previous definition of ‘class GPUProgram’
+ class GPUProgram {
+       ^~~~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h:27:20: error: redefinition of ‘const unsigned int windowWidth’
+ const unsigned int windowWidth = 600, windowHeight = 600;
+                    ^~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:27:20: note: ‘const unsigned int windowWidth’ previously defined here
+ const unsigned int windowWidth = 600, windowHeight = 600;
+                    ^~~~~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h:27:39: error: redefinition of ‘const unsigned int windowHeight’
+ const unsigned int windowWidth = 600, windowHeight = 600;
+                                       ^~~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:27:39: note: ‘const unsigned int windowHeight’ previously defined here
+ const unsigned int windowWidth = 600, windowHeight = 600;
+                                       ^~~~~~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h:30:8: error: redefinition of ‘struct vec2’
+ struct vec2 {
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:30:8: note: previous definition of ‘struct vec2’
+ struct vec2 {
+        ^~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘float dot(const vec2&, const vec2&)’:
+./framework.h:43:14: error: redefinition of ‘float dot(const vec2&, const vec2&)’
+ inline float dot(const vec2& v1, const vec2& v2) {
+              ^~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:43:14: note: ‘float dot(const vec2&, const vec2&)’ previously defined here
+ inline float dot(const vec2& v1, const vec2& v2) {
+              ^~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘float length(const vec2&)’:
+./framework.h:47:14: error: redefinition of ‘float length(const vec2&)’
+ inline float length(const vec2& v) { return sqrtf(dot(v, v)); }
+              ^~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:47:14: note: ‘float length(const vec2&)’ previously defined here
+ inline float length(const vec2& v) { return sqrtf(dot(v, v)); }
+              ^~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘vec2 normalize(const vec2&)’:
+./framework.h:49:13: error: redefinition of ‘vec2 normalize(const vec2&)’
+ inline vec2 normalize(const vec2& v) { return v * (1 / length(v)); }
+             ^~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:49:13: note: ‘vec2 normalize(const vec2&)’ previously defined here
+ inline vec2 normalize(const vec2& v) { return v * (1 / length(v)); }
+             ^~~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘vec2 operator*(float, const vec2&)’:
+./framework.h:51:13: error: redefinition of ‘vec2 operator*(float, const vec2&)’
+ inline vec2 operator*(float a, const vec2& v) { return vec2(v.x * a, v.y * a); }
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:51:13: note: ‘vec2 operator*(float, const vec2&)’ previously defined here
+ inline vec2 operator*(float a, const vec2& v) { return vec2(v.x * a, v.y * a); }
+             ^~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: At global scope:
+./framework.h:54:8: error: redefinition of ‘struct vec3’
+ struct vec3 {
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:54:8: note: previous definition of ‘struct vec3’
+ struct vec3 {
+        ^~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘float dot(const vec3&, const vec3&)’:
+./framework.h:69:14: error: redefinition of ‘float dot(const vec3&, const vec3&)’
+ inline float dot(const vec3& v1, const vec3& v2) { return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z); }
+              ^~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:69:14: note: ‘float dot(const vec3&, const vec3&)’ previously defined here
+ inline float dot(const vec3& v1, const vec3& v2) { return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z); }
+              ^~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘float length(const vec3&)’:
+./framework.h:71:14: error: redefinition of ‘float length(const vec3&)’
+ inline float length(const vec3& v) { return sqrtf(dot(v, v)); }
+              ^~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:71:14: note: ‘float length(const vec3&)’ previously defined here
+ inline float length(const vec3& v) { return sqrtf(dot(v, v)); }
+              ^~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘vec3 normalize(const vec3&)’:
+./framework.h:73:13: error: redefinition of ‘vec3 normalize(const vec3&)’
+ inline vec3 normalize(const vec3& v) { return v * (1 / length(v)); }
+             ^~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:73:13: note: ‘vec3 normalize(const vec3&)’ previously defined here
+ inline vec3 normalize(const vec3& v) { return v * (1 / length(v)); }
+             ^~~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘vec3 cross(const vec3&, const vec3&)’:
+./framework.h:75:13: error: redefinition of ‘vec3 cross(const vec3&, const vec3&)’
+ inline vec3 cross(const vec3& v1, const vec3& v2) {
+             ^~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:75:13: note: ‘vec3 cross(const vec3&, const vec3&)’ previously defined here
+ inline vec3 cross(const vec3& v1, const vec3& v2) {
+             ^~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘vec3 operator*(float, const vec3&)’:
+./framework.h:79:13: error: redefinition of ‘vec3 operator*(float, const vec3&)’
+ inline vec3 operator*(float a, const vec3& v) { return vec3(v.x * a, v.y * a, v.z * a); }
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:79:13: note: ‘vec3 operator*(float, const vec3&)’ previously defined here
+ inline vec3 operator*(float a, const vec3& v) { return vec3(v.x * a, v.y * a, v.z * a); }
+             ^~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: At global scope:
+./framework.h:82:8: error: redefinition of ‘struct vec4’
+ struct vec4 {
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:82:8: note: previous definition of ‘struct vec4’
+ struct vec4 {
+        ^~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘float dot(const vec4&, const vec4&)’:
+./framework.h:98:14: error: redefinition of ‘float dot(const vec4&, const vec4&)’
+ inline float dot(const vec4& v1, const vec4& v2) {
+              ^~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:98:14: note: ‘float dot(const vec4&, const vec4&)’ previously defined here
+ inline float dot(const vec4& v1, const vec4& v2) {
+              ^~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘vec4 operator*(float, const vec4&)’:
+./framework.h:102:13: error: redefinition of ‘vec4 operator*(float, const vec4&)’
+ inline vec4 operator*(float a, const vec4& v) {
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:102:13: note: ‘vec4 operator*(float, const vec4&)’ previously defined here
+ inline vec4 operator*(float a, const vec4& v) {
+             ^~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: At global scope:
+./framework.h:107:8: error: redefinition of ‘struct mat4’
+ struct mat4 { // row-major matrix 4x4
+        ^~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:107:8: note: previous definition of ‘struct mat4’
+ struct mat4 { // row-major matrix 4x4
+        ^~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘vec4 operator*(const vec4&, const mat4&)’:
+./framework.h:130:13: error: redefinition of ‘vec4 operator*(const vec4&, const mat4&)’
+ inline vec4 operator*(const vec4& v, const mat4& mat) {
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:130:13: note: ‘vec4 operator*(const vec4&, const mat4&)’ previously defined here
+ inline vec4 operator*(const vec4& v, const mat4& mat) {
+             ^~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘mat4 operator*(const mat4&, const mat4&)’:
+./framework.h:134:13: error: redefinition of ‘mat4 operator*(const mat4&, const mat4&)’
+ inline mat4 operator*(const mat4& left, const mat4& right) {
+             ^~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:134:13: note: ‘mat4 operator*(const mat4&, const mat4&)’ previously defined here
+ inline mat4 operator*(const mat4& left, const mat4& right) {
+             ^~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘mat4 TranslateMatrix(vec3)’:
+./framework.h:140:13: error: redefinition of ‘mat4 TranslateMatrix(vec3)’
+ inline mat4 TranslateMatrix(vec3 t) {
+             ^~~~~~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:140:13: note: ‘mat4 TranslateMatrix(vec3)’ previously defined here
+ inline mat4 TranslateMatrix(vec3 t) {
+             ^~~~~~~~~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘mat4 ScaleMatrix(vec3)’:
+./framework.h:147:13: error: redefinition of ‘mat4 ScaleMatrix(vec3)’
+ inline mat4 ScaleMatrix(vec3 s) {
+             ^~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:147:13: note: ‘mat4 ScaleMatrix(vec3)’ previously defined here
+ inline mat4 ScaleMatrix(vec3 s) {
+             ^~~~~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: In function ‘mat4 RotationMatrix(float, vec3)’:
+./framework.h:154:13: error: redefinition of ‘mat4 RotationMatrix(float, vec3)’
+ inline mat4 RotationMatrix(float angle, vec3 w) {
+             ^~~~~~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:154:13: note: ‘mat4 RotationMatrix(float, vec3)’ previously defined here
+ inline mat4 RotationMatrix(float angle, vec3 w) {
+             ^~~~~~~~~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h: At global scope:
+./framework.h:164:7: error: redefinition of ‘class Texture’
+ class Texture {
+       ^~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:164:7: note: previous definition of ‘class Texture’
+ class Texture {
+       ^~~~~~~
+In file included from ./Scene.cpp:4:0:
+./framework.h:237:7: error: redefinition of ‘class GPUProgram’
+ class GPUProgram {
+       ^~~~~~~~~~
+In file included from ./Material.h:4:0,
+                 from ./Intersectable.h:3,
+                 from ./Scene.cpp:2:
+./framework.h:237:7: note: previous definition of ‘class GPUProgram’
+ class GPUProgram {
+       ^~~~~~~~~~
+./Scene.cpp: In member function ‘void Scene::build()’:
+./Scene.cpp:13:5: error: ‘camera’ was not declared in this scope
+     camera.set(eye, lookat, vup, fov);
+     ^~~~~~
+./Scene.cpp:13:5: note: suggested alternative: ‘Camera’
+     camera.set(eye, lookat, vup, fov);
+     ^~~~~~
+     Camera
+./Scene.cpp:15:5: error: ‘objects’ was not declared in this scope
+     objects.push_back(new Egg(vec3(0, 0, 0), 0.5f, new RefractiveMaterial(vec3(1.5, 1.5, 1.5))));
+     ^~~~~~~
+./Scene.cpp:15:5: note: suggested alternative: ‘glRects’
+     objects.push_back(new Egg(vec3(0, 0, 0), 0.5f, new RefractiveMaterial(vec3(1.5, 1.5, 1.5))));
+     ^~~~~~~
+     glRects
+./Scene.cpp: At global scope:
+./Scene.cpp:18:6: error: prototype for ‘void Scene::render(std::vector<vec4>&)’ does not match any in class ‘Scene’
+ void Scene::render(std::vector<vec4> &image)
+      ^~~~~
+In file included from ./Scene.cpp:1:0:
+./Scene.h:15:10: error: candidate is: void Scene::render(int)
+     void render(std::vector<vec4> &image);
+          ^~~~~~
+./Scene.cpp:32:41: error: no ‘vec3 Scene::trace(Ray, int)’ member function declared in class ‘Scene’
+ vec3 Scene::trace(Ray ray, int depth = 0) //recursive ray tracing
+                                         ^
+./Scene.cpp:76:34: error: no ‘Hit Scene::firstIntersect(Ray)’ member function declared in class ‘Scene’
+ Hit Scene::firstIntersect(Ray ray)
+                                  ^
+./Scene.cpp:90:6: error: prototype for ‘bool Scene::shadowIntersect(Ray)’ does not match any in class ‘Scene’
+ bool Scene::shadowIntersect (Ray ray){
+      ^~~~~
+In file included from ./Scene.cpp:1:0:
+./Scene.h:18:10: error: candidate is: bool Scene::shadowIntersect(int)
+     bool shadowIntersect(Ray ray);
+          ^~~~~~~~~~~~~~~
+In file included from ./Skeleton.cpp:2:0:
+./Scene.h:8:17: error: ‘Intersectable’ was not declared in this scope
+     std::vector<Intersectable *> objects;
+                 ^~~~~~~~~~~~~
+./Scene.h:8:32: error: template argument 1 is invalid
+     std::vector<Intersectable *> objects;
+                                ^
+./Scene.h:8:32: error: template argument 2 is invalid
+./Scene.h:9:17: error: ‘Light’ was not declared in this scope
+     std::vector<Light *> lights;
+                 ^~~~~
+./Scene.h:9:17: note: suggested alternative: ‘glLighti’
+     std::vector<Light *> lights;
+                 ^~~~~
+                 glLighti
+./Scene.h:9:24: error: template argument 1 is invalid
+     std::vector<Light *> lights;
+                        ^
+./Scene.h:9:24: error: template argument 2 is invalid
+./Scene.h:10:5: error: ‘Camera’ does not name a type; did you mean ‘gamma’?
+     Camera camera;
+     ^~~~~~
+     gamma
+./Scene.h:16:5: error: ‘Hit’ does not name a type
+     Hit firstIntersect(Ray ray);
+     ^~~
+./Scene.h:17:16: error: ‘Ray’ has not been declared
+     vec3 trace(Ray ray, int depth = 0);
+                ^~~
+./Scene.h:18:26: error: ‘Ray’ has not been declared
+     bool shadowIntersect(Ray ray);
+                          ^~~
+./Skeleton.cpp: In function ‘void onInitialization()’:
+./Skeleton.cpp:75:67: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘long int’ [-Wformat=]
+  printf("Rendering time: %d milliseconds\n", (timeEnd - timeStart));
