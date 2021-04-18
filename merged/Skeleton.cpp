@@ -1,10 +1,43 @@
 //=============================================================================================
-// Computer Graphics Sample Program: Ray-tracing-let
+// Mintaprogram: Z�ld h�romsz�g. Ervenyes 2019. osztol.
+//
+// A beadott program csak ebben a fajlban lehet, a fajl 1 byte-os ASCII karaktereket tartalmazhat, BOM kihuzando.
+// Tilos:
+// - mast "beincludolni", illetve mas konyvtarat hasznalni
+// - faljmuveleteket vegezni a printf-et kiveve
+// - Mashonnan atvett programresszleteket forrasmegjeloles nelkul felhasznalni es
+// - felesleges programsorokat a beadott programban hagyni!!!!!!!
+// - felesleges kommenteket a beadott programba irni a forrasmegjelolest kommentjeit kiveve
+// ---------------------------------------------------------------------------------------------
+// A feladatot ANSI C++ nyelvu forditoprogrammal ellenorizzuk, a Visual Studio-hoz kepesti elteresekrol
+// es a leggyakoribb hibakrol (pl. ideiglenes objektumot nem lehet referencia tipusnak ertekul adni)
+// a hazibeado portal ad egy osszefoglalot.
+// ---------------------------------------------------------------------------------------------
+// A feladatmegoldasokban csak olyan OpenGL fuggvenyek hasznalhatok, amelyek az oran a feladatkiadasig elhangzottak
+// A keretben nem szereplo GLUT fuggvenyek tiltottak.
+//
+// NYILATKOZAT
+// ---------------------------------------------------------------------------------------------
+// Nev    : Samer Bahri
+// Neptun :	OWYUL7
+// ---------------------------------------------------------------------------------------------
+// ezennel kijelentem, hogy a feladatot magam keszitettem, es ha barmilyen segitseget igenybe vettem vagy
+// mas szellemi termeket felhasznaltam, akkor a forrast es az atvett reszt kommentekben egyertelmuen jeloltem.
+// A forrasmegjeloles kotelme vonatkozik az eloadas foliakat es a targy oktatoi, illetve a
+// grafhazi doktor tanacsait kiveve barmilyen csatornan (szoban, irasban, Interneten, stb.) erkezo minden egyeb
+// informaciora (keplet, program, algoritmus, stb.). Kijelentem, hogy a forrasmegjelolessel atvett reszeket is ertem,
+// azok helyessegere matematikai bizonyitast tudok adni. Tisztaban vagyok azzal, hogy az atvett reszek nem szamitanak
+// a sajat kontribucioba, igy a feladat elfogadasarol a tobbi resz mennyisege es minosege alapjan szuletik dontes.
+// Tudomasul veszem, hogy a forrasmegjeloles kotelmenek megsertese eseten a hazifeladatra adhato pontokat
+// negativ elojellel szamoljak el es ezzel parhuzamosan eljaras is indul velem szemben.
 //=============================================================================================
 #include "framework.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+
+
+// Starter code: cg.iit.bme.hu/~szirmay/Raytrace3Sphere.zip
 
 enum MaterialType
 {
@@ -109,14 +142,14 @@ class Egg : public Intersectable
 public:
 	Egg(Material *_material)
 	{
-
+		//center : (0,0,0)
 		material = _material;
 	}
 
 	Hit intersect(const Ray &ray)
 	{
 		Hit hit;
-		vec3 axes = vec3(10, 50, 10);
+		vec3 axes = vec3(10, 50, 10); 
 
 		float a = vecsum(vectermtoterm(vectermtoterm(ray.dir, ray.dir), axes));
 		float b = 2.0 * vecsum(vectermtoterm(vectermtoterm(ray.dir, ray.start), axes));
@@ -131,7 +164,7 @@ public:
 			return hit;
 		hit.t = (t2 > 0) ? t2 : t1;
 		hit.position = ray.start + ray.dir * hit.t;
-		hit.normal = vectermtoterm(hit.position, axes); // gradient of formula
+		hit.normal = vectermtoterm(hit.position, axes); 
 		hit.material = material;
 		return hit;
 	}
@@ -139,14 +172,16 @@ public:
 
 class Face : public Intersectable
 {
-	vec3 p1, p2, p3, 
+	vec3 p1, p2, p3, p4, p5;
 
 public:
-	Face(const vec3 &_p1, const vec3 &_p2, const vec3 &_p3, Material *_material)
+	Face(const vec3 &_p1, const vec3 &_p2, const vec3 &_p3, const vec3 &_p4, const vec3 &_p5, Material *_material)
 	{
 		p1 = _p1;
 		p2 = _p2;
 		p3 = _p3;
+		p4 = _p4;
+		p5 = _p5;
 		material = _material;
 	}
 	Hit intersect(const Ray &ray)
@@ -154,20 +189,33 @@ public:
 		Hit hit;
 		vec3 v1 = p2 - p1;
 		vec3 v2 = p3 - p1;
+		vec3 v3 = p4 - p1;
+		vec3 v4 = p5 - p1;
 		vec3 normal = cross(v1, v2);
 		float denom = dot(ray.dir, normal);
 		if (denom == 0)
 			return hit;
 		float d = -dot(normal, ray.start - p1) / denom;
-		float u = -dot(cross(v2, -ray.dir), ray.start - p1) / denom;
-		float v = -dot(cross(-ray.dir, v1), ray.start - p1) / denom;
-		if (u < 0 || v < 0 || u + v > 1)
+		vec3 point = ray.start + d * ray.dir;
+		bool flags[3] = {
+			check(v1, v2, denom, ray),
+			check(v2, v3, denom, ray),
+			check(v3, v4, denom, ray),
+		};
+		if (flags[0] && flags[2] && flags[3])
 			return hit;
 		hit.t = d;
 		hit.position = ray.start + d * ray.dir;
 		hit.normal = normal;
 		hit.material = material;
 		return hit;
+	}
+
+	bool check(vec3 v1, vec3 v2, float denom, Ray ray) // convex hull for triangle 
+	{
+		float u = -dot(cross(v2, -ray.dir), ray.start - p1) / denom;
+		float v = -dot(cross(-ray.dir, v1), ray.start - p1) / denom;
+		return (u < 0 || v < 0 || u + v > 1);  
 	}
 };
 
@@ -300,15 +348,9 @@ public:
 			objects.push_back(new Face(dedocahedron->facesvec().at(i).at(0),
 									   dedocahedron->facesvec().at(i).at(1),
 									   dedocahedron->facesvec().at(i).at(2),
-									   new ReflectiveMaterial(vec3(0.14, 0.16, 0.13), vec3(4.1, 2.3, 3.1))));
-			objects.push_back(new Face(dedocahedron->facesvec().at(i).at(0),
-									   dedocahedron->facesvec().at(i).at(2),
-									   dedocahedron->facesvec().at(i).at(3),
-									   new ReflectiveMaterial(vec3(0.14, 0.16, 0.13), vec3(4.1, 2.3, 3.1))));
-			objects.push_back(new Face(dedocahedron->facesvec().at(i).at(0),
 									   dedocahedron->facesvec().at(i).at(3),
 									   dedocahedron->facesvec().at(i).at(4),
-									   new ReflectiveMaterial(vec3(0.14, 0.16, 0.13), vec3(4.1, 2.3, 3.1))));
+									   new ReflectiveMaterial(vec3(0.1, 0.16, 0.13), vec3(4.1, 2.3, 3.1))));
 		}
 
 		objects.push_back(new Egg(
