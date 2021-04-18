@@ -83,16 +83,6 @@ struct Ray
 	}
 };
 
-vec3 vectermtoterm(vec3 v1, vec3 v2)
-{
-	return vec3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
-}
-
-float vecsum(vec3 v)
-{
-	return v.x + v.y + v.z;
-}
-
 class Intersectable
 {
 protected:
@@ -104,10 +94,10 @@ public:
 
 class Egg : public Intersectable
 {
-	vec3 center;
+	vec3 axes = vec3(0.5,1,1);
 
 public:
-	Egg(Material *_material)
+	Egg(const vec3 &_center, Material *_material)
 	{
 
 		material = _material;
@@ -116,22 +106,19 @@ public:
 	Hit intersect(const Ray &ray)
 	{
 		Hit hit;
-		vec3 axes = vec3(10, 50, 10);
 
-		float a = vecsum(vectermtoterm(vectermtoterm(ray.dir, ray.dir), axes));
-		float b = 2.0 * vecsum(vectermtoterm(vectermtoterm(ray.dir, ray.start), axes));
-		float c = vecsum(vectermtoterm(vectermtoterm(ray.start, ray.start), axes)) - 1;
+		float a = axes.x * ray.dir.x * ray.dir.x + axes.y * ray.dir.y * ray.dir.y + axes.z * ray.dir.z * ray.dir.z;
+		float b = 2 *(axes.x * ray.dir.x * ray.start.x + axes.y * ray.dir.y * ray.start.y + axes.z * ray.dir.z * ray.start.z);
+		float c = axes.x * ray.start.x * ray.dir.x + axes.y * ray.start.y * ray.dir.y + axes.z * ray.start.z * ray.dir.z - 1;
 		float discr = b * b - 4.0f * a * c;
-		if (discr < 0)
-			return hit;
+		if (discr < 0) return hit;
 		float sqrt_discr = sqrtf(discr);
-		float t1 = (-b + sqrt_discr) / 2.0f / a;
+		float t1 = (-b + sqrt_discr) / 2.0f / a;	// t1 >= t2 for sure
 		float t2 = (-b - sqrt_discr) / 2.0f / a;
-		if (t1 <= 0)
-			return hit;
+		if (t1 <= 0) return hit;
 		hit.t = (t2 > 0) ? t2 : t1;
 		hit.position = ray.start + ray.dir * hit.t;
-		hit.normal = vectermtoterm(hit.position, axes); // gradient of formula
+		hit.normal = axes.x * (hit.position.x * hit.position.x) + axes.y * (hit.position.y * hit.position.y) + axes.z * (hit.position.y * hit.position.y);
 		hit.material = material;
 		return hit;
 	}
@@ -139,7 +126,7 @@ public:
 
 class Face : public Intersectable
 {
-	vec3 p1, p2, p3, 
+	vec3 p1, p2, p3;
 
 public:
 	Face(const vec3 &_p1, const vec3 &_p2, const vec3 &_p3, Material *_material)
@@ -284,8 +271,9 @@ public:
 	void build()
 	{
 		Dedocahedron *dedocahedron = new Dedocahedron();
-		int bandwidh = 10;
-		vec3 eye = vec3(0, 0, 1), vup = vec3(0, 1, 0), lookat = vec3(0, 0, 0);
+		int bandwidh = 5;
+		vec3 eye = vec3(randab(-bandwidh, bandwidh), randab(-bandwidh, bandwidh), randab(-bandwidh, bandwidh)),
+			 vup = vec3(randab(-bandwidh, bandwidh), randab(-bandwidh, bandwidh), randab(-bandwidh, bandwidh)), lookat = vec3(0, 0, 0);
 		float fov = 45 * M_PI / 180;
 		camera.set(eye, lookat, vup, fov);
 
@@ -294,25 +282,25 @@ public:
 		lights.push_back(new Light(lightDirection, Le));
 
 		vec3 ks(3.1, 2.7, 1.9);
-
-		for (int i = 0; i < dedocahedron->facesvec().size(); i++)
-		{
-			objects.push_back(new Face(dedocahedron->facesvec().at(i).at(0),
-									   dedocahedron->facesvec().at(i).at(1),
-									   dedocahedron->facesvec().at(i).at(2),
-									   new ReflectiveMaterial(vec3(0.14, 0.16, 0.13), vec3(4.1, 2.3, 3.1))));
-			objects.push_back(new Face(dedocahedron->facesvec().at(i).at(0),
-									   dedocahedron->facesvec().at(i).at(2),
-									   dedocahedron->facesvec().at(i).at(3),
-									   new ReflectiveMaterial(vec3(0.14, 0.16, 0.13), vec3(4.1, 2.3, 3.1))));
-			objects.push_back(new Face(dedocahedron->facesvec().at(i).at(0),
-									   dedocahedron->facesvec().at(i).at(3),
-									   dedocahedron->facesvec().at(i).at(4),
-									   new ReflectiveMaterial(vec3(0.14, 0.16, 0.13), vec3(4.1, 2.3, 3.1))));
-		}
-
-		objects.push_back(new Egg(
-			new ReflectiveMaterial(vec3(0.17, 0.35, 1.5), ks)));
+		// for (int i = 0; i < dedocahedron->facesvec().size(); i++)
+		// {
+		// 	objects.push_back(new Face(dedocahedron->facesvec().at(i).at(0),
+		// 							   dedocahedron->facesvec().at(i).at(1),
+		// 							   dedocahedron->facesvec().at(i).at(2),
+		// 							   new RefractiveMaterial(vec3(1.2, 1.2, 1.2))));
+		// 	objects.push_back(new Face(dedocahedron->facesvec().at(i).at(0),
+		// 							   dedocahedron->facesvec().at(i).at(2),
+		// 							   dedocahedron->facesvec().at(i).at(3),
+		// 							   new RefractiveMaterial(vec3(1.2, 1.2, 1.2))));
+		// 	objects.push_back(new Face(dedocahedron->facesvec().at(i).at(0),
+		// 							   dedocahedron->facesvec().at(i).at(3),
+		// 							   dedocahedron->facesvec().at(i).at(4),
+		// 							   new RefractiveMaterial(vec3(1.2, 1.2, 1.2))));
+		// }
+		
+		
+		objects.push_back(new Egg(vec3(0, 0, 0),
+								  new ReflectiveMaterial(vec3(0.17, 0.35, 1.5), ks)));
 	}
 
 	void render(std::vector<vec4> &image)
@@ -356,7 +344,7 @@ public:
 
 	vec3 trace(Ray ray, int depth = 0)
 	{
-		if (depth > 4)
+		if (depth > 5)
 			return La;
 		Hit hit = firstIntersect(ray);
 		if (hit.t < 0)
