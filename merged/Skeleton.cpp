@@ -2,12 +2,22 @@
 // Computer Graphics Sample Program: Ray-tracing-let
 //=============================================================================================
 #include "framework.h"
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 enum MaterialType
 {
 	ROUGH,
 	REFLECTIVE,
 	REFRACTIVE
+};
+
+float randab(float a, float b)
+{
+	int x = (int)((b - a) * 100);
+	int y = (int)(a * 100);
+	return (float)(rand() % x + y) / 100;
 };
 
 struct Material
@@ -85,13 +95,12 @@ public:
 class Egg : public Intersectable
 {
 	vec3 center;
-	float radius;
 
 public:
 	Egg(const vec3 &_center, Material *_material)
 	{
 		center = _center;
-		radius = 1.0f;
+
 		material = _material;
 	}
 
@@ -120,90 +129,93 @@ public:
 
 class Face : public Intersectable
 {
-private:
 	vec3 p1, p2, p3;
 
 public:
-	Face(vec3 _p1, vec3 _p2, vec3 _p3)
+	Face(const vec3 &_p1, const vec3 &_p2, const vec3 &_p3, Material *_material)
 	{
 		p1 = _p1;
 		p2 = _p2;
 		p3 = _p3;
+		material = _material;
 	}
 	Hit intersect(const Ray &ray)
 	{
 		Hit hit;
-		vec3 normal = cross(p2 - p1, p3 - p1);
-		if (dot(ray.dir, normal) == 0)
+		vec3 v1 = p2 - p1;
+		vec3 v2 = p3 - p1;
+		vec3 normal = cross(v1, v2);
+		float denom = dot(ray.dir, normal);
+		if (denom == 0)
 			return hit;
-		
+		float d = -dot(normal, ray.start - p1) / denom;
+		float u = -dot(cross(v2, -ray.dir), ray.start - p1) / denom;
+		float v = -dot(cross(-ray.dir, v1), ray.start - p1) / denom;
+		if (u < 0 || v < 0 || u + v > 1)
+			return hit;
+		hit.t = d;
+		hit.position = ray.start + d * ray.dir;
+		hit.normal = normal;
 		hit.material = material;
 		return hit;
 	}
 };
 
-class Dedocahedron : public Intersectable
+class Dedocahedron
 {
-	vec3 center;
-	float radius;
+	std::vector<vec3> vertices;
+	std::vector<std::vector<int>> faces;
 
 public:
 	Dedocahedron()
 	{
-		std::vector<vec3> vertices = {vec3{0, 0.618, 1.618},
-									  vec3{0, -0.618, 1.618},
-									  vec3{0, -0.618, -1.618},
-									  vec3{0, 0.618, -1.618},
-									  vec3{1.618, 0, 0.618},
-									  vec3{-1.618, 0, 0.618},
-									  vec3{-1.618, 0, -0.618},
-									  vec3{1.618, 0, -0.618},
-									  vec3{0.618, 1.618, 0},
-									  vec3{-0.618, 1.618, 0},
-									  vec3{-0.618, -1.618, 0},
-									  vec3{0.618, -1.618, 0},
-									  vec3{1, 1, 1},
-									  vec3{-1, 1, 1},
-									  vec3{-1, -1, 1},
-									  vec3{1, -1, 1},
-									  vec3{1, -1, -1},
-									  vec3{1, 1, -1},
-									  vec3{-1, 1, -1},
-									  vec3{-1, -1, -1}};
-		std::vector<std::vector<float>> faces = {{0, 1, 15, 4, 12},
-												 {0, 12, 8, 9, 13},
-												 {0, 13, 5, 14, 1},
-												 {1, 14, 10, 11, 15},
-												 {2, 3, 17, 7, 16},
-												 {2, 16, 11, 10, 19},
-												 {2, 19, 6, 18, 3},
-												 {18, 9, 8, 17, 3},
-												 {15, 11, 16, 7, 4},
-												 {4, 7, 17, 8, 12},
-												 {13, 9, 18, 6, 5},
-												 {5, 6, 19, 10, 14}};
+		vertices = {vec3{0, 0.618, 1.618},
+					vec3{0, -0.618, 1.618},
+					vec3{0, -0.618, -1.618},
+					vec3{0, 0.618, -1.618},
+					vec3{1.618, 0, 0.618},
+					vec3{-1.618, 0, 0.618},
+					vec3{-1.618, 0, -0.618},
+					vec3{1.618, 0, -0.618},
+					vec3{0.618, 1.618, 0},
+					vec3{-0.618, 1.618, 0},
+					vec3{-0.618, -1.618, 0},
+					vec3{0.618, -1.618, 0},
+					vec3{1, 1, 1},
+					vec3{-1, 1, 1},
+					vec3{-1, -1, 1},
+					vec3{1, -1, 1},
+					vec3{1, -1, -1},
+					vec3{1, 1, -1},
+					vec3{-1, 1, -1},
+					vec3{-1, -1, -1}};
+		faces = {{0, 1, 15, 4, 12},
+				 {0, 12, 8, 9, 13},
+				 {0, 13, 5, 14, 1},
+				 {1, 14, 10, 11, 15},
+				 {2, 3, 17, 7, 16},
+				 {2, 16, 11, 10, 19},
+				 {2, 19, 6, 18, 3},
+				 {18, 9, 8, 17, 3},
+				 {15, 11, 16, 7, 4},
+				 {4, 7, 17, 8, 12},
+				 {13, 9, 18, 6, 5},
+				 {5, 6, 19, 10, 14}};
 	}
-
-	Hit intersect(const Ray &ray)
+	std::vector<std::vector<vec3>> facesvec()
 	{
-		Hit hit;
-		vec3 dist = ray.start - center;
-		float a = dot(ray.dir, ray.dir);
-		float b = dot(dist, ray.dir) * 2.0f;
-		float c = dot(dist, dist) - 1;
-		float discr = b * b - 4.0f * a * c;
-		if (discr < 0)
-			return hit;
-		float sqrt_discr = sqrtf(discr);
-		float t1 = (-b + sqrt_discr) / 2.0f / a; // t1 >= t2 for sure
-		float t2 = (-b - sqrt_discr) / 2.0f / a;
-		if (t1 <= 0)
-			return hit;
-		hit.t = (t2 > 0) ? t2 : t1;
-		hit.position = ray.start + ray.dir * hit.t;
-		hit.normal = (hit.position - center);
-		hit.material = material;
-		return hit;
+		std::vector<std::vector<vec3>> result;
+		for (int i = 0; i < faces.size(); i++)
+		{
+			std::vector<vec3> temp;
+			temp.push_back(vertices.at(faces.at(i).at(0)));
+			temp.push_back(vertices.at(faces.at(i).at(1)));
+			temp.push_back(vertices.at(faces.at(i).at(2)));
+			temp.push_back(vertices.at(faces.at(i).at(3)));
+			temp.push_back(vertices.at(faces.at(i).at(4)));
+			result.push_back(temp);
+		}
+		return result;
 	}
 };
 
@@ -250,7 +262,7 @@ struct Light
 };
 
 const float epsilon = 0.0001f;
-
+;
 class Scene
 {
 	std::vector<Intersectable *> objects;
@@ -261,7 +273,10 @@ class Scene
 public:
 	void build()
 	{
-		vec3 eye = vec3(0, 0, 4), vup = vec3(0, 1, 0), lookat = vec3(0, 0, 0);
+		Dedocahedron *dedocahedron = new Dedocahedron();
+		int bandwidh = 5;
+		vec3 eye = vec3(randab(-bandwidh, bandwidh), randab(-bandwidh, bandwidh), randab(-bandwidh, bandwidh)),
+			 vup = vec3(randab(-bandwidh, bandwidh), randab(-bandwidh, bandwidh), randab(-bandwidh, bandwidh)), lookat = vec3(0, 0, 0);
 		float fov = 45 * M_PI / 180;
 		camera.set(eye, lookat, vup, fov);
 
@@ -270,17 +285,23 @@ public:
 		lights.push_back(new Light(lightDirection, Le));
 
 		vec3 ks(3.1, 2.7, 1.9);
-
+		for (int i = 0; i < dedocahedron->facesvec().size(); i++)
+		{
+			objects.push_back(new Face(dedocahedron->facesvec().at(i).at(0),
+									   dedocahedron->facesvec().at(i).at(1),
+									   dedocahedron->facesvec().at(i).at(2),
+									   new RefractiveMaterial(vec3(1.2, 1.2, 1.2))));
+			objects.push_back(new Face(dedocahedron->facesvec().at(i).at(0),
+									   dedocahedron->facesvec().at(i).at(2),
+									   dedocahedron->facesvec().at(i).at(3),
+									   new RefractiveMaterial(vec3(1.2, 1.2, 1.2))));
+			objects.push_back(new Face(dedocahedron->facesvec().at(i).at(0),
+									   dedocahedron->facesvec().at(i).at(3),
+									   dedocahedron->facesvec().at(i).at(4),
+									   new RefractiveMaterial(vec3(1.2, 1.2, 1.2))));
+		}
 		objects.push_back(new Egg(vec3(0, 0, 0),
 								  new ReflectiveMaterial(vec3(0.17, 0.35, 1.5), ks)));
-		objects.push_back(new Egg(vec3(2, 2, 0),
-								  new RoughMaterial(vec3(0.1, 0.2, 0.3), ks, 100)));
-		// objects.push_back(new Egg(vec3(0, 0.5, -0.8), 0.5,
-		// 	              new RoughMaterial(vec3(0.3, 0, 0.2), ks, 20)));
-		// objects.push_back(new Egg(vec3(0, 0,  0), 0.5,
-		// 	              new RefractiveMaterial(vec3(1.2, 1.2, 1.2))));
-		// objects.push_back(new Egg(vec3(0, 0, 0), 6,
-		// 	              new ReflectiveMaterial(vec3(0.14, 0.16, 0.13), vec3(4.1, 2.3, 3.1))));
 	}
 
 	void render(std::vector<vec4> &image)
@@ -297,7 +318,7 @@ public:
 			}
 		}
 
-		printf("Rendering time: %d milliseconds\n", glutGet(GLUT_ELAPSED_TIME) - timeStart);
+		printf("Rendering time: %ld milliseconds\n", glutGet(GLUT_ELAPSED_TIME) - timeStart);
 	}
 
 	Hit firstIntersect(Ray ray)
