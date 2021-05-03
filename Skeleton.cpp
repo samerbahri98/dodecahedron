@@ -52,6 +52,11 @@ Dnum<T> Pow(Dnum<T> g, float n)
 	return Dnum<T>(powf(g.f, n), n * powf(g.f, n - 1) * g.d);
 }
 
+float magnitude(vec3 v)
+{
+	return sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+}
+
 typedef Dnum<vec2> Dnum2;
 
 const int tessellationLevel = 20;
@@ -136,7 +141,7 @@ public:
 			for (int y = 0; y < height; y++)
 			{
 				//image[y * width + x] = (x*x + y*y) %3000 ? yellow : blue;
-				image[y * width + x] = vec4(float((x*x + y*y) %30000)/30000,float((x*x + y*y) %30000)/300000,1,1);
+				image[y * width + x] = vec4(float((x * x + y * y) % 30000) / 30000, float((x * x + y * y) % 30000) / 300000, 1, 1);
 				//image[y * width + x] = (x & 1) ^ (y & 1) ? yellow : blue;
 			}
 		create(width, height, image, GL_NEAREST);
@@ -564,6 +569,7 @@ public:
 class ParamSurface : public Geometry
 {
 	//---------------------------
+public:
 	struct VertexData
 	{
 		vec3 position, normal;
@@ -572,7 +578,6 @@ class ParamSurface : public Geometry
 
 	unsigned int nVtxPerStrip, nStrips;
 
-public:
 	ParamSurface() { nVtxPerStrip = nStrips = 0; }
 
 	virtual void eval(Dnum2 &U, Dnum2 &V, Dnum2 &X, Dnum2 &Y, Dnum2 &Z) = 0;
@@ -698,7 +703,10 @@ public:
 		geometry->Draw();
 	}
 
-	virtual void Animate(float tstart, float tend) { rotationAngle = 0.8f * tend; }
+	virtual void Animate(float tstart, float tend)
+	{
+		//rotationAngle = 0.8f * tend;
+	}
 };
 
 //---------------------------
@@ -710,6 +718,27 @@ class Scene
 	std::vector<Light> lights;
 
 public:
+	vec3 origin(float radius)
+	{
+		return vec3(radius, radius, cosh(2 * radius * radius));
+	}
+
+	void addSphere()
+	{
+		Shader *gouraudShader = new GouraudShader();
+		Material *material0 = new Material;
+		material0->kd = vec3(0.6f, 0.4f, 0.2f);
+		material0->ks = vec3(4, 4, 4);
+		material0->ka = vec3(0.1f, 0.1f, 0.1f);
+		material0->shininess = 100;
+		Texture *sphereTexture = new CheckerBoardTexture(15, 20);
+		Geometry *sphere = new Sphere();
+		Object *sphereObject1 = new Object(gouraudShader, material0, sphereTexture, sphere);
+		sphereObject1->translation = vec3(0, 0, 0.1f) + 2* origin(0);
+		sphereObject1->scale = vec3(0.1f, 0.1f, 0.1f);
+		objects.push_back(sphereObject1);
+	}
+
 	void Build()
 	{
 		// Shaders
@@ -748,10 +777,6 @@ public:
 
 		// Create objects by setting up their vertex data on the GPU
 
-		Object *sphereObject1 = new Object(phongShader, material0, sphereTexture, sphere);
-		sphereObject1->translation = vec3(0, 0, 2.5);
-		sphereObject1->scale = vec3(0.1f, 0.1f, 0.1f);
-		objects.push_back(sphereObject1);
 		for (int i = 0; i < 4; i++)
 		{
 			Object *BowlObject = new Object(bowlShader, material1, bowlTexure, bowls.at(i));
@@ -759,23 +784,25 @@ public:
 			BowlObject->scale = vec3(2, 2, 2);
 			objects.push_back(BowlObject);
 		}
+		Bowl *buttomLeftCorner = new Bowl(1.0f, 1.0f);
+		vec3 normal = buttomLeftCorner->GenVertexData(0.5, 0.5).normal;
+		normal = normal / magnitude(normal);
+		vec3 direction = (2 * this->origin(0.5) + 0.1 * normal);
+		Object *sphereObject1 = new Object(gouraudShader, material0, sphereTexture, sphere);
+		sphereObject1->translation = vec3(-direction.x, -direction.y, direction.z);
+
+		printf("%f , %f , %f\n",
+			   sphereObject1->translation.x,
+			   sphereObject1->translation.y,
+			   sphereObject1->translation.z);
+		sphereObject1->scale = vec3(0.1f, 0.1f, 0.1f);
+		objects.push_back(sphereObject1);
 
 		int nObjects = objects.size();
-		// for (int i = 0; i < nObjects; i++)
-		// {
-		// 	Object *object = new Object(*objects[i]);
-		// 	object->translation.y -= 3;
-		// 	object->shader = gouraudShader;
-		// 	objects.push_back(object);
-		// 	object = new Object(*objects[i]);
-		// 	object->translation.y -= 6;
-		// 	object->shader = nprShader;
-		// 	objects.push_back(object);
-		// }
 
 		// Camera
 		camera.wEye = vec3(0, 0, 4);
-		camera.wLookat = vec3(0, 0, 0);
+		camera.wLookat = vec3(0, 0, 1);
 		camera.wVup = vec3(0, 1, 0);
 
 		// Lights
@@ -832,13 +859,22 @@ void onDisplay()
 }
 
 // Key of ASCII code pressed
-void onKeyboard(unsigned char key, int pX, int pY) {}
+void onKeyboard(unsigned char key, int pX, int pY)
+{
+}
 
 // Key of ASCII code released
-void onKeyboardUp(unsigned char key, int pX, int pY) {}
+void onKeyboardUp(unsigned char key, int pX, int pY)
+{
+}
 
 // Mouse click event
-void onMouse(int button, int state, int pX, int pY) {}
+void onMouse(int button, int state, int pX, int pY)
+{
+	scene.addSphere();
+	//scene.Render();
+	glutPostRedisplay();
+}
 
 // Move mouse with key pressed
 void onMouseMotion(int pX, int pY)
