@@ -61,6 +61,11 @@ typedef Dnum<vec2> Dnum2;
 
 const int tessellationLevel = 20;
 
+vec3 height(float x, float y)
+{
+	return vec3(x, y, cosh(x * x + y * y));
+}
+
 //---------------------------
 struct Camera
 {							  // 3D camera
@@ -107,8 +112,16 @@ struct Material
 struct Light
 {
 	//---------------------------
-	vec3 La, Le;
+	vec3 La, Le, rotationAxis;
 	vec4 wLightPos; // homogeneous coordinates, can be at ideal point
+	float rotationAngle;
+	virtual void Animate(float tstart, float tend)
+	{
+		rotationAngle = 0.8f * tend;
+		vec3 normal(-wLightPos.y, wLightPos.x, 0);
+		normal = rotationAngle * (normal / magnitude(normal));
+		wLightPos = wLightPos + vec4(normal.x, normal.y, 0, 0);
+	}
 };
 
 //---------------------------
@@ -709,6 +722,44 @@ public:
 	}
 };
 
+class Ball : public Object
+{
+public:
+	vec3 direction, normal, velocity, acceleration, gravity;
+	Ball(vec3 _velocity,
+		 vec3 _normal,
+		 vec3 _direction,
+		 Shader *_shader,
+		 Material *_material,
+		 Texture *_texture,
+		 Geometry *_geometry)
+		: Object(_shader, _material, _texture, _geometry)
+	{
+		this->velocity = _velocity;
+		this->normal = _normal;
+		this->gravity = vec3(0, 0, -3);
+		this->direction = _direction;
+	}
+	void Animate(float tstart, float tend) override
+	{
+		this->acceleration = gravity - dot(gravity, normal) * normal;
+		this->velocity = this->velocity + this->acceleration * 0.001f * tend;
+		this->direction = this->direction + this->velocity * 0.001f * tend;
+		// snap to the bowl
+		float signx = this->direction.x / abs(this->direction.x), signy = this->direction.y / abs(this->direction.y);
+		Bowl *referenceBowl = new Bowl(signx, signy);
+		normal = referenceBowl->GenVertexData(abs(this->direction.x), abs(this->direction.y)).normal;
+		normal = normal / magnitude(normal);
+		vec3 position = (2 * height(this->direction.x, this->direction.y) + 0.1 * normal);
+		this->translation = vec3(position.x, position.y, position.z);
+
+		// printf("%f , %f , %f\n",
+		// 	   this->translation.x,
+		// 	   this->translation.y,
+		// 	   this->translation.z);
+	}
+};
+
 //---------------------------
 class Scene
 {
@@ -716,14 +767,10 @@ class Scene
 	std::vector<Object *> objects;
 	Camera camera; // 3D camera
 	std::vector<Light> lights;
+	vec3 masterNormal, masterPosition;
 
 public:
-	vec3 origin(float radius)
-	{
-		return vec3(radius, radius, cosh(2 * radius * radius));
-	}
-
-	void addSphere()
+	void addSphere(float px, float py)
 	{
 		Shader *gouraudShader = new GouraudShader();
 		Material *material0 = new Material;
@@ -733,8 +780,11 @@ public:
 		material0->shininess = 100;
 		Texture *sphereTexture = new CheckerBoardTexture(15, 20);
 		Geometry *sphere = new Sphere();
-		Object *sphereObject1 = new Object(gouraudShader, material0, sphereTexture, sphere);
-		sphereObject1->translation = vec3(0, 0, 0.1f) + 2* origin(0);
+		Ball *sphereObject1 = new Ball(vec3(px, 1 - py, 0), masterNormal, masterPosition, gouraudShader, material0, sphereTexture, sphere);
+		printf("%f , %f \n",
+			   px,
+			   py);
+		sphereObject1->translation = masterPosition;
 		sphereObject1->scale = vec3(0.1f, 0.1f, 0.1f);
 		objects.push_back(sphereObject1);
 	}
@@ -766,7 +816,6 @@ public:
 
 		// Geometries
 		Geometry *sphere = new Sphere();
-		Geometry *bowl;
 		std::vector<Geometry *> bowls;
 
 		//bowl = new Bowl(1.0f,1.0f);
@@ -787,37 +836,31 @@ public:
 		Bowl *buttomLeftCorner = new Bowl(1.0f, 1.0f);
 		vec3 normal = buttomLeftCorner->GenVertexData(0.5, 0.5).normal;
 		normal = normal / magnitude(normal);
-		vec3 direction = (2 * this->origin(0.5) + 0.1 * normal);
+		vec3 direction = (2 * height(0.5, 0.5) + 0.1 * normal);
 		Object *sphereObject1 = new Object(gouraudShader, material0, sphereTexture, sphere);
-		sphereObject1->translation = vec3(-direction.x, -direction.y, direction.z);
-
-		printf("%f , %f , %f\n",
-			   sphereObject1->translation.x,
-			   sphereObject1->translation.y,
-			   sphereObject1->translation.z);
+		masterPosition = vec3(-direction.x, -direction.y, direction.z);
+		sphereObject1->translation = masterPosition;
+		masterNormal = normal;
+		
 		sphereObject1->scale = vec3(0.1f, 0.1f, 0.1f);
 		objects.push_back(sphereObject1);
 
 		int nObjects = objects.size();
 
 		// Camera
-		camera.wEye = vec3(0, 0, 4);
+		camera.wEye = vec3(0, 4, 8);
 		camera.wLookat = vec3(0, 0, 1);
 		camera.wVup = vec3(0, 1, 0);
 
 		// Lights
-		lights.resize(3);
+		lights.resize(2);
 		lights[0].wLightPos = vec4(5, 5, 4, 0); // ideal point -> directional light source
 		lights[0].La = vec3(0.1f, 0.1f, 1);
 		lights[0].Le = vec3(3, 0, 0);
 
-		lights[1].wLightPos = vec4(5, 10, 20, 0); // ideal point -> directional light source
-		lights[1].La = vec3(0.2f, 0.2f, 0.2f);
-		lights[1].Le = vec3(0, 3, 0);
-
-		lights[2].wLightPos = vec4(-5, 5, 5, 0); // ideal point -> directional light source
-		lights[2].La = vec3(0.1f, 0.1f, 0.1f);
-		lights[2].Le = vec3(0, 0, 3);
+		lights[1].wLightPos = vec4(-5, 5, 5, 0); // ideal point -> directional light source
+		lights[1].La = vec3(0.1f, 0.1f, 0.1f);
+		lights[1].Le = vec3(0, 0, 3);
 	}
 
 	void Render()
@@ -835,6 +878,8 @@ public:
 	{
 		for (Object *obj : objects)
 			obj->Animate(tstart, tend);
+		for (int i = 0; i < 2; i++)
+			lights.at(i).Animate(tstart, tend);
 	}
 };
 
@@ -871,8 +916,8 @@ void onKeyboardUp(unsigned char key, int pX, int pY)
 // Mouse click event
 void onMouse(int button, int state, int pX, int pY)
 {
-	scene.addSphere();
-	//scene.Render();
+	if (state)
+		scene.addSphere((float)pX / windowWidth, (float)pY / windowHeight);
 	glutPostRedisplay();
 }
 
